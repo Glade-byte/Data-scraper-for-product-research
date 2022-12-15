@@ -1,0 +1,18 @@
+import  requests
+from bs4 import BeautifulSoup
+
+#get  request  to the website to retrive  html
+response =requests.get(https://www.kilimall.co.ke/new/flash-sales?gclid=Cj0KCQiAqOucBhDrARIsAPCQL1bh35JXw4R0Jf9ktd5I6A3nwYYxY7JKLT9BkGqgol5McLFWEb44YtUaAqFGEALw_wcB)
+html =response.text
+
+#parse the Html 
+soup =BeautifulSoup(html, 'html.parser')
+
+#extract best performing products using  CSS selectors
+products =soup.select('.product-item')
+
+#print name and  price  of each product
+for product in products:
+    name =product.select _one('.title')
+    price = product.select_one('.price').text
+  print(f'Name: {name} - Price: {price}')
