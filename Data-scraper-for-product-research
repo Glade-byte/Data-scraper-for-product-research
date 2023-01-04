@@ -1,18 +1,22 @@
-import  requests
+import requests
 from bs4 import BeautifulSoup
 
-#get  request  to the website to retrive  html
-response =requests.get(https://www.kilimall.co.ke/new/flash-sales?gclid=Cj0KCQiAqOucBhDrARIsAPCQL1bh35JXw4R0Jf9ktd5I6A3nwYYxY7JKLT9BkGqgol5McLFWEb44YtUaAqFGEALw_wcB)
-html =response.text
+# get request to the website to retrieve html
+response = requests.get("https://www.kilimall.co.ke/new/flash-sales?gclid=Cj0KCQiAqOucBhDrARIsAPCQL1bh35JXw4R0Jf9ktd5I6A3nwYYxY7JKLT9BkGqgol5McLFWEb44YtUaAqFGEALw_wcB")
+html = response.text
 
-#parse the Html 
-soup =BeautifulSoup(html, 'html.parser')
+# parse the html
+soup = BeautifulSoup(html, "lxml")
 
-#extract best performing products using  CSS selectors
-products =soup.select('.product-item')
+# extract best performing products using CSS selectors
+products = soup.find_all(class_="product-item")
 
-#print name and  price  of each product
+# print name and price of each product
 for product in products:
-    name =product.select _one('.title')
-    price = product.select_one('.price').text
-  print(f'Name: {name} - Price: {price}')
+    try:
+        name = product.find(class_="title").get_text()
+        price = product.find(class_="price").get_text()
+        print(f"Name: {name} - Price: {price}")
+    except:
+        # handle case where name or price elements are not found
+        pass
